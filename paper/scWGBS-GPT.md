@@ -38,10 +38,18 @@
 **core** : 将 DNA 序列看成一串 "CpG"，每个 CpG 是一个 token，并将 flanking nucleotide contect 当作上下文信息整合到 token
 
 **process** :
-1. DNA 序列拆分 ： 将基因组数据拆分成 CpG 位点窗口，每个窗口都包含一个 CpG 位点序列，周围的核苷酸作为上下文进行编码
-2. 甲基化状态编码 : 甲基化状态二值化并整合周围 k-mer 
+1. DNA 序列拆分 ： 将基因组数据拆分成 CpG 位点窗口，每个窗口都包含一系列 CpG 位点序列，周围的核苷酸作为上下文进行编码
+2. 甲基化状态编码 : 对窗口中每一个 CpG 进行编码，甲基化状态二值化并整合周围 k-mer 
 3. 序列组装 ：将
-4. 特殊 token 插入 : \[BOS\] 插入到序列的窗口开始，\[SEP\] 插入到序列的窗口末尾，用于生成 cross-attention 查询向量
+4. 特殊 token 插入 : \[BOS\] 插入到窗口开始，\[SEP\] 插入到窗口末尾，用于生成 cross-attention 查询向量
+
+for example : <br>
+
+$$ Genomic Window = \[x_1, x_2, ..., x_n \] $$  <br>
+
+through tokenizer processes :  <br>
+
+$$ Tokenized Sequence = \[\[BOS\], t_1, t_2, ..., t_n, \[SEP\]\]$$ 
 
 **advantages**
 1. 保留甲基化信息
@@ -57,7 +65,7 @@
 
 **motivation** : 由于scWGBS（单细胞全基因组亚硫酸氢盐测序）数据超长序列，且需要对局部 CpG 相互作用和长程依赖性进行高效建模。而 mamba结构实现了线性复杂度的注意力机制并且能有效进行长序列建模 <br>
 
-
+![mamba 架构图](图片链接 "图片title")
 
 
 
@@ -66,8 +74,12 @@
 
 ### Cross Attention
 
+**process** : 用 \[SEP\] token 的隐藏状态生成查询，每个 CpG 位点的隐藏状态生成键和值，做交叉注意力，得到的 H_inf{att} 用于下游层的进一步处理
 
-
+**advantages** :
+1. 捕获长程依赖关系
+2. 将 CpG 位点间相互作用"上下文化"处理
+3. 高效的表征学习，使得即使是不完整或稀疏的数据也能捕获有意义模式
 
 
 
