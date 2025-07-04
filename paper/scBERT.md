@@ -37,6 +37,45 @@
 
 > HVG selection : 高变异基因筛选，从所有基因中选出在细胞群体间变异性较大的一部分基因
 
+##  What are the strengths of the method presented in this paper?
+
+
+
+## Method
+
+![overview_scbert_1](./pictures/overview_scbert_1.png)
+
+![overview_scbert_2](./pictures/overview_scbert_2.png)
+
+如果没有细胞类型具有显著高概率，查询的细胞被标记为 “unknown”
+
+与 BERT 相比
+
+- 把位置嵌入换成 gene embedding 以注入 gene-gene interaction information, gene embedding 从 pre-trained gene2vec 获得
+
+- 把词嵌入换成 expression embedding 通过将基因表达值分箱
+
+- 把 BERT 中 Transformer 换成 Performer 
+
+## Evaluating cell type annotation performance and robustness by intra-dataset cross validation.
+
+
+## Cell type annotation across scRNA-seq datasets from different experiments.
+
+![]()
+
+## Discovery of novel cell types in the query dataset.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
