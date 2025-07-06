@@ -67,10 +67,51 @@
 ## Discovery of novel cell types in the query dataset.
 
 
+## Investigating scBERT model interpretability
 
 
 
+## Discussion
 
+## Methods
+
+### The scBERT model
+
+**Gene embedding** ：输入数据由 individual gene 和表达基因之间的相似性的 a predefined vector space （使用 gene2vec）
+
+**Expression embedding** :  通过频率分析，将连续表达变量分词并转换为 200 维变量
+> 在文本分析中，一个词在文本中出现的频率是非常有价值的信息，这种信息通常被转换为 “词袋模型（bag-of-words）” 的形式，以统计词频（term frequency）的方式实现，这种基于词频的表示方法，常被用于 NLP 领域的后续任务。
+
+**Model Building** : 由于 scRNA-seq 维度可高达 20,000 ，采用 Transformer 的矩阵分解版本 Performer。构建模型使用 6 个 Performer encoder layers ，每层 10 个 head。
+
+**Self-supervised learning on unlabeled data** : 由于 "dropout zeros" 现象，只随机 mask non-zero gene expression，进行预测。（注意由于分箱，相当于是分类任务而不是回归任务）
+
+![scBERT_loss_function](./pictures/scBERT_loss_function.png)
+
+> dropout zeros phenomeno ：在单细胞转录组（scRNA-seq）测序数据种，会看到很多基因在某些细胞里的表达值为 0，这些 “0” 并不一定是真的没表达，可能由技术原因没被检测到，这种现象称为 dropout。
+
+**Supervised learning on specific tasks** : scBERT 输出是 200-dimension feature 对应于每个基因，先采用以为卷积，再用 3-layer neural network 作为分类头。采用交叉熵损失函数作为预测损失。
+
+### Datasets
+
+两阶段使用不同来源的数据集，从而避免数据泄露。
+
+**The Panglao dataset** : 整合了包含 74 个组织的 209 个人类单细胞数据集，共有 1,126,580 个细胞，来自不同平台不同实验，用于第一阶段预训练。只是用基因和表达水平。
+
+**Zheng68k dataset** : 包含 68,000 个细胞，包含罕见的细胞类型和不平衡的细胞类型分布。用于 cell type annotation。
+
+**Pancreas dataset** : 
+
+**McParland dataset** : 
+
+### Data preprocessing
+
+
+
+### Benchmarking
+
+
+ 
 
 
 
