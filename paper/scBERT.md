@@ -47,7 +47,7 @@
 
 ![overview_scbert_2](./pictures/overview_scbert_2.png)
 
-如果没有细胞类型具有显著高概率，查询的细胞被标记为 “unknown”
+如果结果中没有细胞类型具有显著高概率，查询的细胞被标记为 “unknown”
 
 与 BERT 相比
 
