@@ -2,14 +2,14 @@
 
 my learning note of scFM
 
--[paper][1]:
+- [paper][1]:
   - [scWGBS-GPT][3]
   - [MethylBERT][4]
   - [scBERT][5]
 
 
 
--[code][2]:
+- [code][2]:
 
 
 
