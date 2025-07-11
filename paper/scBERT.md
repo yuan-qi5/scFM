@@ -59,20 +59,63 @@
 
 ## Evaluating cell type annotation performance and robustness by intra-dataset cross validation.
 
+在 6 个 scRNA-seq 数据集上评估，应用 5 重交叉验证策略并重复 5 次以消除随机性影响
+
+比较不同方法在细胞水平和细胞类型水平上的细胞类型注释，分别使用 accuracy 和 macro F1 score。
+
+为研究下 reference dataset 对 scBERT 性能的影响，从 Zheng 68K dataset 均匀采样从 10% 到 90% 
+
+![fig2d]()
+
+观察到基于机器学习方法性能能受益于参考数据集规模的增加。
+
+接着测试在细胞分布严重不均衡时，scBERT 的鲁棒性，从 Zheng68K 数据集中选 4 中 PBMC cell types，进行类别不平衡测试。
+
+- 微调时，从四种细胞类型随机采样 10000, 100, 10000, 100 作为 reference data，推理时，每种类型采样 100 个细胞
+
+![fig2e](./)
 
 ## Cell type annotation across scRNA-seq datasets from different experiments.
 
-![]()
+leave-one-dataset-out strategy: （留一数据集法）一种常见的交叉验证（cross-validation）策略，主要用于评估模型的泛化能力，也适用于数据集间存在批次效应的场景。
+
+原理：有 N 个数据集，每一轮验证中，挑选一个数据集作为测试集，其余 N - 1 个数据集合并作为训练集，重复 N 次，每次轮流将每个数据集留作测试集，其他所有数据集用来训练。
+
+![fig3a]()
 
 ## Discovery of novel cell types in the query dataset.
 
+参考数据集中存在的细胞类型可能无法覆盖所有的细胞类型，为检验 scBERT 在发现 unseen cell type 能力，在 MacParland dataset （训练时删掉一些细胞群） 上评估 scBERT 表现。
+
+![fig4a]()
+
+![fig4b]()
 
 ## Investigating scBERT model interpretability
 
+进行可解释性分析去探索 key genes for decision-making。
+
+- 将 multi-head multi-layer performers 注意力矩阵逐元素平均为一个注意力矩阵，这个矩阵 A(i, j) 代表着 gene i 给予 gene j
+
+- 在对注意力矩阵的每列求和得到 attention-sum vector
+
+- 这样可以得到与特定细胞类型相对应的 top attention gene
+
+采用 Muraro dataset 进行实验：
+
+- 找到最受欢迎的基因包括已经被研究的 markers of specific cell types
+
+- 找到差异表达基因，有文献佐证可能是未发现的 marker gene
+
+![fig5a]()
 
 
-## Discussion
 
+> enrichment analysis：富集分析，
+
+![fig5b]()
+
+ 
 ## Methods
 
 ### The scBERT model
