@@ -1,8 +1,5 @@
 # scWGBS-GPT Note
-## 
-
-##
-
+ 
 ## Discussion
 ### What is scWGBS-GPT ?
 - 第一个专门为单细胞 DNA 甲基化分析设计的大语言模型 （单细胞水平）
