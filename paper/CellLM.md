@@ -19,7 +19,20 @@ Memory bank 方法通过维护不涉及梯度反向传播的大量负样本队�
 
 ![celllm_framework](./pictures/celllm_framework.png)
 
+### Pre-Processing of scRNA-seq Data
 
+### Model Architecture
+
+### Pre-training CellLM
+
+
+## Experiments 
+
+
+## Conclusion
+
+
+## Limitations
 
 ## TODO 
 
