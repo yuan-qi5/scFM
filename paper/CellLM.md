@@ -21,18 +21,64 @@ Memory bank 方法通过维护不涉及梯度反向传播的大量负样本队�
 
 ### Pre-Processing of scRNA-seq Data
 
+RNA 原始数据以计数矩阵的形式提供，表示为 $M = {n_k}_{k=1}^{N}$，N 代表基因的数量，$n_k$ 为整数，表示 scRNA-seq 中第 $k$ 个基因的计数。由于批次效应，不同测序批次的数据间大小不具有可比性，将每一个数据归一化为
+
+![cellLM_norm](./pictures/cellLM_norm.png)
+
+鉴于单细胞 RNA 测序数据具有高维度和高度稀疏的特点，我们只提取每个细胞中非零表达基因的位置索引 $P=\{p_k\}={j|x_j \in \mathcal{X} and x_j \neq 0}$ 以及其对应的表达值 $Y={y_k}={x_{p_k}}$，从而显著减少了训练时的计算开销（减少超过 70%）。
+
 ### Model Architecture
 
+**Expression encoder $\varphi_E$**：由于基因表达水平是通过计数矩阵的归一化得到的，实际上在每个细胞中是离散的。根据表达式级别将其划分为几个 bin，并将每个 bin 映射为可训练的 512-dimensional 编码。
+
+**Gene Encoder $\varphi_G$**：Protein-protein interaction(PPI) network 可以反映基因间的相互关系。所以使用 GraphMAE 去获得基因嵌入来作为额外知识。
+
+**Performer-based module**：对输入矩阵 $C = (c_k)$ 送入 Performer 之前由两部分组成：gene embedding $\varphi_{G}(p_k)$ 和 expression embedding $\varphi_{E}(y_k)$。然后通过 Performer model 得到编码 $H = (h_k)$
+
+$$
+c_k = \varphi_{G}(p_k) + \varphi_{E}(y_k)
+H = Performer(C)
+$$
+
 ### Pre-training CellLM
+
+设计了三个自监督学习方式：
+
+**Divide-and-Conquer Contrastive Learning**
+
+**Masked Language Modeling**
+
+**Cell Type Discrimination**
 
 
 ## Experiments 
 
+**Pre-training data**：在 2 million scRNA-seq 数据，来自 PanglaoDB 和 CancerSCEM 数据集。利用了 PanglaoDB 数据集包含来自 74 种人类组织的 1,126,580 单细胞数据点和 CancerSCEM 中来自 208 个癌症样本的 638,341 个单细胞数据点。
 
-## Conclusion
+**Downstream tasks**: 
+1. 在人外周血单核细胞数据集 Zheng68k 和胰腺数据集 Baron 进行细胞类型注释。
 
+![Zhang68K_celllm](./pictures/Zhang68K_celllm.png)
 
-## Limitations
+![celllm_heatmap](./pictures/celllm_heatmap.png)
+
+2. 在单细胞和细胞系水平上进行药物敏感性预测，即通过基因表达值预测是否对药物敏感。
+
+> 细胞系药物敏感性预测：给定某个药物和某个细胞系，预测这个药物对该细胞系的敏感程度。敏感程度越高，说明药物越容易抑制该细胞的成长。
+>
+> 细胞系 (cell line)：
+
+对单细胞任务，在人肺癌细胞（GSE149383）和人口腔癌细胞（GSE117872）两个数据集上进行了全场景（80% 训练）和少场景（5% 训练）实验。
+
+![cold_start](./pictures/cold_start.png)
+
+对细胞系水平，使用 CCLE 和 GDSC 数据集进行评估，模拟冷启动和热启动。热启动情景，数据被随机分为 train、validation、test。冷启动场景中测试集中包含训练时没见过的细胞系。
+
+> IC50(半数抑制浓度)：对一个细胞系施加不同浓度的药物，然后测量该细胞系的存活率或生长情况，最终得到一个连续值指标。
+
+![cell_line_cellLm](./pictures/cell_line_cellLM.png)
+
+ 
 
 ## TODO 
 
