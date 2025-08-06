@@ -57,7 +57,7 @@ H = Performer(C)
 
 **Masked Language Modeling**: 
 
-![celllm_mlm](./pictures/celllm_mlm.png)
+![celllm_mllm](./pictures/cell_mllm.png) 
 
 **Cell Type Discrimination**：把一个 [cls] 标签加到单细胞基因表达序列的开始，该位置的输出用于预测细胞是来自肿瘤组织还是正常组织。
 
