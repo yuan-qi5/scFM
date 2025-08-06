@@ -6,7 +6,7 @@ my learning note of scFM
   - [scWGBS-GPT][3]
   - [MethylBERT][4]
   - [scBERT][5]
-
+  - [cellLM][6]
 
 
 - [code][2]:
@@ -18,3 +18,4 @@ my learning note of scFM
 [3]:https://github.com/yuan-qi5/scFM/blob/main/paper/scWGBS-GPT.md
 [4]:https://github.com/yuan-qi5/scFM/blob/main/paper/MethylBERT.md
 [5]:https://github.com/yuan-qi5/scFM/blob/main/paper/scBERT.md
+[6]:https://github.com/yuan-qi5/scFM/blob/main/paper/cellLM.md
