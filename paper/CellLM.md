@@ -51,10 +51,17 @@ H = Performer(C)
 
 **Divide-and-Conquer Contrastive Learning**
 
-**Masked Language Modeling**
+![cl_loss](./pictures/cl_loss.png)
 
-**Cell Type Discrimination**
+![dnc_cl](./pictures/dnc_cl.png)
 
+**Masked Language Modeling**: 
+
+![celllm_mlm](./pictures/celllm_mlm.png)
+
+**Cell Type Discrimination**：把一个 [cls] 标签加到单细胞基因表达序列的开始，该位置的输出用于预测细胞是来自肿瘤组织还是正常组织。
+
+![cell_type_loss](./pictures/cell_type_loss.png)
 
 ## Experiments 
 
@@ -86,6 +93,10 @@ H = Performer(C)
  
 
 ## TODO 
+
+1. Expression encoder 中划分 bin 的方式
+2. 对比学习代码实现
+3. 模型嵌入以及 GraphMAE 实现
 
 1-6  31、32
 
